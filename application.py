@@ -24,20 +24,16 @@ app.config["DEBUG"] = True
 
 
 
-createStatement = "INSERT INTO movies (id,movieName) VALUES (1,'hhThe_social_network')"
-cursor.execute(createStatement)
-cursor.commit()
+
 
 
 
 
 class Home(Resource):
     def get(self):
-        movieData = []
-        result = cursor.execute(selectStatement)
-        for row in result:
-            movieData.append(str(row))
-        return(movieData)
+        createStatement = "INSERT INTO movies (id,movieName) VALUES (1,'hhThe_social_network')"
+        cursor.execute(createStatement)
+        cursor.commit()
 
 api.add_resource(Home, '/home') # Route_1
 
