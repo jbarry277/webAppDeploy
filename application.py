@@ -23,17 +23,12 @@ cursor = cnxn.cursor()
 app.config["DEBUG"] = True
 
 
-
-
-
-
-
-
 class Home(Resource):
-    def get(self):
+    def put(self):
         createStatement = "INSERT INTO movies (id,movieName) VALUES (1,'hhThe_social_network')"
         cursor.execute(createStatement)
         cursor.commit()
+        return 'done'
 
 api.add_resource(Home, '/home') # Route_1
 
