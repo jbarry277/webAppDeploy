@@ -24,7 +24,7 @@ app.config["DEBUG"] = True
 
 
 class Home(Resource):
-    def put(self):
+    def get(self):
         createStatement = "INSERT INTO movies (id,movieName) VALUES (1,'hhThe_social_network')"
         cursor.execute(createStatement)
         cursor.commit()
