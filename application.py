@@ -1,36 +1,32 @@
 import pyodbc
-import json
-
-from flask import Flask, request
+from flask import Flask, request,jsonify
+from flask_cors import CORS
 from flask_restful import Resource, Api
-
 import mysql.connector
+from SQLhelpers import *
+##from endpoints.addMovie import Hello
+conn = mysql.connector.connect(host='127.0.0.1',
+                                           database='topDB',
+                                           user='root',
+                                           password='')
 
+cursor = conn.cursor()
 app = Flask('topAPI')
-api = Api(app)
+CORS(app)
 
 
+@app.route('/home',methods = ['GET', 'POST'])
 
-
-server = 'topserver1.database.windows.net'
-database = 'topDB'
-username = 'topAdmin'
-password = 'Mitsilancer1'
-driver= '{ODBC Driver 17 for SQL Server}'
-cnxn = pyodbc.connect('DRIVER='+driver+';SERVER='+server+';PORT=1433;DATABASE='+database+';UID='+username+';PWD='+ password)
-cursor = cnxn.cursor()
-
-app.config["DEBUG"] = True
-
-
-class Home(Resource):
-    def get(self):
-        createStatement = "INSERT INTO movies (id,movieName) VALUES (1,'hhThe_social_network')"
-        cursor.execute(createStatement)
-        cursor.commit()
-        return 'done'
-
-api.add_resource(Home, '/home') # Route_1
-
-#if __name__ == '__main__':
-#     app.run(port='5002')
+def movies():
+    if(request.method == 'POST'):
+        data = request.get_json()
+        movieName = data['movieName']
+        year = data['year']
+        director = data['director']
+        cursor.execute('INSERT INTO movies (movieName,director,year) VALUES (%s,%s,%s)',(movieName,director,year))
+        conn.commit()
+        return jsonify('done')
+    if(request.method == 'GET'):
+        return 'hi'
+if __name__ == '__main__':
+   app.run(port='5002')
