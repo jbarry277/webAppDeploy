@@ -126,6 +126,3 @@ def topTenRanking():
 
             conn.commit()
             return 'ranking updated'
-
-if __name__ == '__main__':
-   app.run(port='5002')
